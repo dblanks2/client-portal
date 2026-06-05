@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBRE Client Portal | Dana Blanks Real Estate</title>
+<meta name="description" content="Dana Blanks Real Estate Client Resource — Mortgage Calculator, Seller Net Sheet, Buyer Readiness Assessment, and Community Guide for coastal North Carolina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Montserrat',sans-serif;background:#1C1C1C;color:#F5F0E8;min-height:100vh}
+.ph{background:#1C1C1C;border-bottom:1px solid #C9A84C33;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.lt{font-family:'Playfair Display',serif;font-size:15px;letter-spacing:.15em;color:#C9A84C;text-transform:uppercase}
+.ls{font-size:9px;letter-spacing:.25em;color:#F5F0E880;text-transform:uppercase;margin-top:2px}
+.hc{font-size:11px;color:#F5F0E870;letter-spacing:.05em;text-align:right;line-height:1.8}
+.hc span{color:#C9A84C}
+.navtabs{display:flex;background:#161616;border-bottom:1px solid #C9A84C22;padding:0 32px;overflow-x:auto;position:sticky;top:61px;z-index:99}
+.nt{padding:14px 18px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#F5F0E855;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;font-weight:500;background:none;border-top:none;border-left:none;border-right:none;font-family:'Montserrat',sans-serif}
+.nt:hover{color:#F5F0E8AA}
+.nt.active{color:#C9A84C;border-bottom-color:#C9A84C}
+.panel{display:none;padding:32px;max-width:1100px;margin:0 auto}
+.panel.active{display:block}
+.hero{text-align:center;padding:40px 0 48px;border-bottom:1px solid #C9A84C22;margin-bottom:40px}
+.hero h1{font-family:'Playfair Display',serif;font-size:30px;font-weight:400;color:#F5F0E8;line-height:1.35;margin-bottom:12px}
+.hero h1 em{color:#C9A84C;font-style:italic}
+.hero p{font-size:12px;letter-spacing:.06em;color:#F5F0E860;max-width:500px;margin:0 auto;line-height:1.9}
+.gd{width:48px;height:1px;background:#C9A84C;margin:18px auto}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:16px}
+.tc{background:#242424;border:1px solid #C9A84C22;border-radius:4px;padding:24px 20px;cursor:pointer;transition:border-color .25s,background .25s,transform .2s;text-align:center}
+.tc:hover{border-color:#C9A84C66;background:#2A2A2A;transform:translateY(-2px)}
+.ti{font-size:26px;color:#C9A84C;margin-bottom:14px}
+.tt{font-family:'Playfair Display',serif;font-size:15px;color:#F5F0E8;margin-bottom:8px}
+.td{font-size:10px;letter-spacing:.04em;color:#F5F0E855;line-height:1.8}
+.sl{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:#C9A84C;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.sl::after{content:'';flex:1;height:1px;background:#C9A84C33}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.fg{margin-bottom:14px}
+.fl{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#F5F0E860;margin-bottom:7px;display:block}
+.fi{width:100%;background:#242424;border:1px solid #C9A84C33;border-radius:3px;padding:11px 14px;font-family:'Montserrat',sans-serif;font-size:13px;color:#F5F0E8;outline:none;transition:border-color .2s}
+.fi:focus{border-color:#C9A84C88}
+.fs{width:100%;background:#242424;border:1px solid #C9A84C33;border-radius:3px;padding:11px 14px;font-family:'Montserrat',sans-serif;font-size:13px;color:#F5F0E8;outline:none;appearance:none;cursor:pointer}
+.rb{background:#1A1A1A;border:1px solid #C9A84C44;border-radius:4px;padding:24px 20px;position:sticky;top:120px}
+.rl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#F5F0E850;margin-bottom:6px}
+.rv{font-family:'Playfair Display',serif;font-size:30px;color:#C9A84C;margin-bottom:20px}
+.bd{display:flex;flex-direction:column}
+.br{display:flex;justify-content:space-between;font-size:11px;padding:7px 0;border-bottom:1px solid #C9A84C15;color:#F5F0E870}
+.br span:last-child{color:#F5F0E8CC}
+.bs{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#C9A84C88;padding:10px 0 4px;border-bottom:none !important}
+.gbtn{background:#C9A84C;color:#1C1C1C;border:none;padding:13px 28px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:2px;margin-top:16px;width:100%;transition:background .2s}
+.gbtn:hover{background:#D4AF6A}
+.gho{background:transparent;color:#C9A84C;border:1px solid #C9A84C55;padding:11px 24px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;cursor:pointer;border-radius:2px;margin-top:10px;width:100%;transition:border-color .2s,color .2s}
+.gho:hover{border-color:#C9A84C;color:#D4AF6A}
+.sc{margin-bottom:18px}
+.sr{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.sv{font-family:'Playfair Display',serif;font-size:15px;color:#C9A84C}
+input[type=range]{width:100%;height:2px;background:#C9A84C33;outline:none;border-radius:1px;appearance:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:16px;height:16px;background:#C9A84C;border-radius:50%;cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+.nb{font-family:'Playfair Display',serif;font-size:36px;color:#C9A84C;text-align:center;margin:16px 0 6px}
+.nl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#F5F0E850;text-align:center;margin-bottom:20px}
+.disc{font-size:9px;color:#F5F0E840;line-height:1.7;margin-top:14px;letter-spacing:.02em}
+.sh{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#C9A84C88;margin:16px 0 10px;padding-top:4px;border-top:1px solid #C9A84C15}
+.qq{font-family:'Playfair Display',serif;font-size:22px;color:#F5F0E8;margin-bottom:10px;line-height:1.4}
+.qs{font-size:11px;color:#F5F0E855;letter-spacing:.04em;margin-bottom:28px}
+.qo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.qopt{background:#242424;border:1px solid #C9A84C22;border-radius:3px;padding:16px;cursor:pointer;font-size:12px;color:#F5F0E8AA;transition:all .2s;text-align:center;line-height:1.6}
+.qopt:hover{border-color:#C9A84C66;color:#F5F0E8}
+.qopt.sel{border-color:#C9A84C;color:#C9A84C;background:#C9A84C11}
+.pb{height:2px;background:#C9A84C22;border-radius:1px;margin-bottom:32px;overflow:hidden}
+.pf{height:100%;background:#C9A84C;transition:width .4s ease}
+.rc{background:#242424;border:1px solid #C9A84C33;border-radius:4px;padding:32px 28px;text-align:center;max-width:560px;margin:0 auto}
+.rbdg{display:inline-block;background:#C9A84C22;color:#C9A84C;font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:6px 16px;border-radius:2px;margin-bottom:16px}
+.rh{font-family:'Playfair Display',serif;font-size:22px;color:#F5F0E8;margin-bottom:14px;line-height:1.4}
+.rp{font-size:12px;color:#F5F0E870;line-height:1.9;max-width:420px;margin:0 auto 24px}
+.ng{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:24px}
+.nc{background:#242424;border:1px solid #C9A84C22;border-radius:4px;padding:18px 14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.nc:hover{border-color:#C9A84C44;background:#272727}
+.nc.sel{border-color:#C9A84C;background:#C9A84C0D}
+.nc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#C9A84C;opacity:0;transition:opacity .2s}
+.nc.sel::before{opacity:1}
+.nm{font-size:9px;letter-spacing:.13em;color:#C9A84C;text-transform:uppercase;margin-bottom:5px}
+.nn{font-family:'Playfair Display',serif;font-size:14px;color:#F5F0E8;margin-bottom:6px}
+.np{font-size:10px;color:#F5F0E870;margin-bottom:9px}
+.ntags{display:flex;flex-wrap:wrap;gap:4px}
+.ntag{font-size:9px;letter-spacing:.07em;color:#C9A84C99;border:1px solid #C9A84C33;padding:3px 7px;border-radius:2px}
+.cbtns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.cb{background:#242424;border:1px solid #C9A84C22;color:#F5F0E855;padding:8px 16px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s}
+.cb:hover{border-color:#C9A84C44;color:#F5F0E8AA}
+.cb.active{background:#C9A84C22;border-color:#C9A84C66;color:#C9A84C}
+.cfg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cff{grid-column:1/-1}
+.ta{width:100%;background:#242424;border:1px solid #C9A84C33;border-radius:3px;padding:12px 14px;font-family:'Montserrat',sans-serif;font-size:13px;color:#F5F0E8;outline:none;resize:vertical;min-height:90px;transition:border-color .2s}
+.ta:focus{border-color:#C9A84C88}
+.ar{display:flex;align-items:center;gap:13px;padding:14px;background:#242424;border:1px solid #C9A84C22;border-radius:4px;margin-bottom:10px;cursor:pointer;transition:border-color .2s,background .2s}
+.ar:hover{border-color:#C9A84C44;background:#272727}
+.ar.sel{border-color:#C9A84C;background:#C9A84C0D}
+.av{width:44px;height:44px;border-radius:50%;background:#C9A84C22;border:1px solid #C9A84C44;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;color:#C9A84C;flex-shrink:0}
+.an{font-size:13px;color:#F5F0E8;font-weight:500;margin-bottom:2px}
+.at{font-size:10px;letter-spacing:.07em;color:#F5F0E855}
+.wb{background:#C9A84C11;border:1px solid #C9A84C44;border-radius:3px;padding:12px 14px;margin-top:12px;font-size:11px;color:#C9A84C;line-height:1.8}
+.succ{text-align:center;padding:48px 24px}
+.footer{text-align:center;padding:32px;border-top:1px solid #C9A84C15;margin-top:48px}
+.footer p{font-size:10px;letter-spacing:.12em;color:#F5F0E840;text-transform:uppercase}
+.footer span{color:#C9A84C66}
+@media(max-width:680px){
+  .two,.cfg,.qo{grid-template-columns:1fr}
+  .panel{padding:20px 16px}
+  .ph{padding:14px 16px}
+  .navtabs{padding:0 12px}
+  .hero h1{font-size:22px}
+  .rb{position:static}
+}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div>
+    <div class="lt">Dana Blanks</div>
+    <div class="ls">Real Estate · Client Portal</div>
+  </div>
+  <div class="hc">
+    <div><span>910.800.0964</span></div>
+    <div>team@danablanksrealestate.com</div>
+  </div>
+</div>
+
+<div class="navtabs">
+  <button class="nt active" onclick="sp('home')">Welcome</button>
+  <button class="nt" onclick="sp('mortgage')">Mortgage</button>
+  <button class="nt" onclick="sp('netsheet')">Seller Net Sheet</button>
+  <button class="nt" onclick="sp('quiz')">Buyer Readiness</button>
+  <button class="nt" onclick="sp('communities')">Communities</button>
+  <button class="nt" onclick="sp('connect')">Connect</button>
+</div>
+
+<div id="panel-home" class="panel active">
+  <div class="hero">
+    <p style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:14px">Your Concierge Resource</p>
+    <h1>Where Luxury Service Meets<br><em>Genuine Connection</em></h1>
+    <div class="gd"></div>
+    <p>Everything you need to navigate your real estate journey — from first calculations to closing day — curated for DBRE clients across coastal North Carolina.</p>
+  </div>
+  <div class="sl">Your Tools</div>
+  <div class="tgrid">
+    <div class="tc" onclick="sp('mortgage')">
+      <div class="ti">⊕</div>
+      <div class="tt">Mortgage Calculator</div>
+      <div class="td">Estimate your monthly payment including taxes, insurance & PMI</div>
+    </div>
+    <div class="tc" onclick="sp('netsheet')">
+      <div class="ti">◈</div>
+      <div class="tt">Seller Net Sheet</div>
+      <div class="td">Estimate your proceeds after all selling costs and fees</div>
+    </div>
+    <div class="tc" onclick="sp('quiz')">
+      <div class="ti">◎</div>
+      <div class="tt">Buyer Readiness</div>
+      <div class="td">Find out where you stand and what your next step should be</div>
+    </div>
+    <div class="tc" onclick="sp('communities')">
+      <div class="ti">◉</div>
+      <div class="tt">Communities</div>
+      <div class="td">Explore New Hanover, Brunswick & Pender counties and the beaches</div>
+    </div>
+    <div class="tc" onclick="sp('connect')">
+      <div class="ti">◈</div>
+      <div class="tt">Connect With Us</div>
+      <div class="td">Reach the DBRE advisor best suited to your goals</div>
+    </div>
+  </div>
+  <div class="footer">
+    <p>Dana Blanks Real Estate &nbsp;<span>·</span>&nbsp; NC License #229987 &nbsp;<span>·</span>&nbsp; Licensed in NC · SC · GA</p>
+    <p style="margin-top:6px">Where Luxury Service Meets Genuine Connection</p>
+  </div>
+</div>
+
+<div id="panel-mortgage" class="panel">
+  <div class="sl">Mortgage Calculator</div>
+  <div class="two">
+    <div>
+      <div class="sc"><div class="sr"><label class="fl" style="margin:0">Home Price</label><span class="sv" id="pv">$450,000</span></div><input type="range" min="100000" max="2000000" step="5000" value="450000" id="hp" oninput="cm()"></div>
+      <div class="sc"><div class="sr"><label class="fl" style="margin:0">Down Payment</label><span class="sv" id="dpv">20%</span></div><input type="range" min="3" max="50" step="1" value="20" id="dp" oninput="cm()"></div>
+      <div class="sc"><div class="sr"><label class="fl" style="margin:0">Interest Rate</label><span class="sv" id="rv">6.8%</span></div><input type="range" min="3" max="12" step="0.1" value="6.8" id="ir" oninput="cm()"></div>
+      <div class="sc"><div class="sr"><label class="fl" style="margin:0">Loan Term</label><span class="sv" id="tv">30 yrs</span></div><input type="range" min="10" max="30" step="5" value="30" id="lt" oninput="cm()"></div>
+      <div class="fg"><label class="fl">Annual Property Tax Rate (%)</label><input type="number" class="fi" id="tr" value="0.85" step="0.05" min="0" max="5" oninput="cm()"></div>
+      <div class="fg"><label class="fl">Annual Homeowner's Insurance ($)</label><input type="number" class="fi" id="ins" value="1800" step="100" oninput="cm()"></div>
+    </div>
+    <div class="rb">
+      <div class="rl">Estimated Monthly Payment</div>
+      <div class="rv" id="mt">—</div>
+      <div class="bd">
+        <div class="br"><span>Principal & Interest</span><span id="pi">—</span></div>
+        <div class="br"><span>Property Tax</span><span id="tx">—</span></div>
+        <div class="br"><span>Homeowner's Insurance</span><span id="iin">—</span></div>
+        <div class="br"><span>PMI (if down payment &lt; 20%)</span><span id="pm">—</span></div>
+        <div class="br" style="margin-top:8px;padding-top:8px;border-top:1px solid #C9A84C33"><span>Loan Amount</span><span id="la">—</span></div>
+        <div class="br"><span>Down Payment</span><span id="da">—</span></div>
+      </div>
+      <p class="disc">Estimates for illustration only. Contact a licensed lender for an official quote. Numbers do not constitute a loan commitment.</p>
+    </div>
+  </div>
+</div>
+
+<div id="panel-netsheet" class="panel">
+  <div class="sl">Seller Estimated Net Sheet</div>
+  <div class="two">
+    <div>
+      <p style="font-size:11px;color:#F5F0E855;line-height:1.8;margin-bottom:20px">Numbers are estimates for illustration purposes only and are not guaranteed. Seller should verify all calculations for accuracy. Based on NC REALTORS® Standard Form 110.</p>
+      <div class="sh">Sale Information</div>
+      <div class="sc"><div class="sr"><label class="fl" style="margin:0">Sale Price</label><span class="sv" id="nsv">$550,000</span></div><input type="range" min="50000" max="3000000" step="5000" value="550000" id="nsp" oninput="cn()"></div>
+      <div class="sh">Pre-Marketing Expenses</div>
+      <div class="fg"><label class="fl">Appraisal ($)</label><input type="number" class="fi" id="nap" value="0" step="100" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Home Inspection ($)</label><input type="number" class="fi" id="nhi" value="0" step="100" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Survey ($)</label><input type="number" class="fi" id="nsu" value="0" step="100" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Soil / Perc Test ($)</label><input type="number" class="fi" id="npt" value="0" step="100" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Environmental / Timber Assessment ($)</label><input type="number" class="fi" id="nev" value="0" step="100" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Repairs / Upfits ($)</label><input type="number" class="fi" id="nru" value="0" step="250" oninput="cn()"></div>
+      <div class="sh">Mortgages & Liens</div>
+      <div class="fg"><label class="fl">1st Mortgage Payoff ($)</label><input type="number" class="fi" id="nm1" value="280000" step="1000" oninput="cn()"></div>
+      <div class="fg"><label class="fl">2nd Mortgage / HELOC ($)</label><input type="number" class="fi" id="nm2" value="0" step="1000" oninput="cn()"></div>
+      <div class="fg"><label class="fl">HOA Assessments / Liens ($)</label><input type="number" class="fi" id="nhl" value="0" step="100" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Fixture Liens (solar, HVAC, etc.) ($)</label><input type="number" class="fi" id="nfl" value="0" step="100" oninput="cn()"></div>
+      <div class="sh">Closing Costs</div>
+      <div class="sc"><div class="sr"><label class="fl" style="margin:0">Listing Firm Commission</label><span class="sv" id="ncv">5.00%</span></div><input type="range" min="5" max="10" step="0.25" value="5" id="nc" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Attorney Fee / Document Prep ($)</label><input type="number" class="fi" id="nat" value="1200" step="100" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Seller-Paid Concessions ($)</label><input type="number" class="fi" id="nsc" value="0" step="500" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Home Warranty ($)</label><input type="number" class="fi" id="nhw" value="0" step="50" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Repairs from Home Inspection ($)</label><input type="number" class="fi" id="nir" value="0" step="250" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Pro-Rated HOA Dues ($)</label><input type="number" class="fi" id="nhd" value="0" step="50" oninput="cn()"></div>
+      <div class="fg"><label class="fl">HOA Transfer / Certification Fees ($)</label><input type="number" class="fi" id="nht" value="0" step="50" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Misc. Fees (copies, wire, etc.) ($)</label><input type="number" class="fi" id="nmi" value="250" step="50" oninput="cn()"></div>
+      <div class="fg"><label class="fl">Due Diligence Fee Received ($)</label><input type="number" class="fi" id="ndd" value="0" step="500" oninput="cn()"></div>
+    </div>
+    <div>
+      <div class="rb">
+        <div class="rl">Estimated Net Proceeds</div>
+        <div class="nb" id="npv">—</div>
+        <div class="nl">After All Estimated Costs</div>
+        <div class="bd">
+          <div class="br bs">Sale</div>
+          <div class="br"><span>Sale Price</span><span id="ns-sale">—</span></div>
+          <div class="br bs">Pre-Marketing</div>
+          <div class="br"><span>Pre-Marketing Total</span><span id="ns-pre" style="color:#E8756A">—</span></div>
+          <div class="br bs">Mortgages & Liens</div>
+          <div class="br"><span>Total Payoff / Liens</span><span id="ns-mort" style="color:#E8756A">—</span></div>
+          <div class="br bs">Closing Costs</div>
+          <div class="br"><span>Commission</span><span id="ns-comm" style="color:#E8756A">—</span></div>
+          <div class="br"><span>Revenue Stamps (NC — $1 per $500)</span><span id="ns-stamps" style="color:#E8756A">—</span></div>
+          <div class="br"><span>Attorney + Misc</span><span id="ns-atty" style="color:#E8756A">—</span></div>
+          <div class="br"><span>Concessions + Warranty + Repairs</span><span id="ns-conc" style="color:#E8756A">—</span></div>
+          <div class="br"><span>HOA Dues + Transfer + Liens</span><span id="ns-hoa" style="color:#E8756A">—</span></div>
+          <div class="br" style="color:#7FC97F"><span>Less: Due Diligence Fee</span><span id="ns-dd">—</span></div>
+          <div class="br" style="border-top:1px solid #C9A84C44;margin-top:8px;padding-top:10px;font-size:12px;font-weight:500">
+            <span style="color:#F5F0E8">Total Estimated Expenses</span><span id="ns-tot" style="color:#E8756A">—</span>
+          </div>
+        </div>
+        <p class="disc">NC Revenue Stamps calculated at $1.00 per $500 of sale price. Numbers are estimates only and do not constitute a guarantee. Seller should verify all figures with their attorney prior to closing. NC REALTORS® Standard Form 110.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="panel-quiz" class="panel">
+  <div class="sl">Buyer Readiness Assessment</div>
+  <div style="max-width:600px">
+    <div class="pb"><div class="pf" id="qp" style="width:5%"></div></div>
+    <div id="qc"></div>
+  </div>
+</div>
+
+<div id="panel-communities" class="panel">
+  <div class="sl">Communities We Serve</div>
+  <p style="font-size:11px;color:#F5F0E855;line-height:1.8;margin-bottom:20px">DBRE serves the greater coastal Carolina market across three counties and the barrier island beaches. Additional markets coming soon.</p>
+  <div class="cbtns">
+    <button class="cb active" onclick="filterN('all',this)">All Communities</button>
+    <button class="cb" onclick="filterN('New Hanover',this)">Wilmington / New Hanover</button>
+    <button class="cb" onclick="filterN('Brunswick',this)">Leland / Brunswick</button>
+    <button class="cb" onclick="filterN('Pender',this)">Hampstead / Pender</button>
+    <button class="cb" onclick="filterN('Beach',this)">The Beaches</button>
+  </div>
+  <div class="ng" id="ng"></div>
+</div>
+
+<div id="panel-connect" class="panel">
+  <div class="sl">Connect With DBRE</div>
+  <div class="two">
+    <div>
+      <p style="font-size:11px;color:#F5F0E860;line-height:1.9;margin-bottom:20px;letter-spacing:.02em">Select your preferred advisor or let us match you. All DBRE advisors serve the full coastal Carolina market area.</p>
+      <div id="adv-list"></div>
+    </div>
+    <div>
+      <div id="cf-area">
+        <!-- EmailJS Integration:
+             1. Create account at emailjs.com
+             2. Replace YOUR_SERVICE_ID, YOUR_TEMPLATE_ID, YOUR_PUBLIC_KEY below
+             3. Uncomment the emailjs script tag and sendForm call
+        -->
+        <div class="cfg">
+          <div class="fg"><label class="fl">First Name</label><input type="text" class="fi" id="cf1" placeholder="First" name="first_name"></div>
+          <div class="fg"><label class="fl">Last Name</label><input type="text" class="fi" id="cf2" placeholder="Last" name="last_name"></div>
+          <div class="fg cff"><label class="fl">Email</label><input type="email" class="fi" id="cfe" placeholder="your@email.com" name="email"></div>
+          <div class="fg cff"><label class="fl">Phone</label><input type="tel" class="fi" id="cfp" placeholder="(910) 000-0000" name="phone"></div>
+          <div class="fg cff"><label class="fl">I am a</label>
+            <select class="fs" id="cft" name="client_type">
+              <option>Buyer</option><option>Seller</option><option>Buyer & Seller</option><option>Investor</option><option>Referral Partner</option>
+            </select>
+          </div>
+          <div class="fg cff"><label class="fl">Are you currently working with a real estate agent?</label>
+            <select class="fs" id="cfa" name="existing_agent" onchange="agc()">
+              <option value="no">No, I am not working with anyone</option>
+              <option value="casual">Casually — no agreement signed</option>
+              <option value="yes">Yes, I have a signed agreement</option>
+            </select>
+          </div>
+          <div class="fg cff"><label class="fl">Preferred Advisor</label><input type="text" class="fi" id="cfadv" placeholder="No preference" name="preferred_advisor" readonly></div>
+          <div class="fg cff"><label class="fl">Message</label><textarea class="ta" id="cfm" name="message" placeholder="Tell us about your goals..."></textarea></div>
+        </div>
+        <div id="aw" style="display:none" class="wb">We respect existing client relationships. If you have a signed agreement with another agent, we encourage you to honor that commitment. You are still welcome to submit your inquiry and we will follow up appropriately.</div>
+        <button class="gbtn" onclick="subCF()">Request a Consultation</button>
+      </div>
+      <div id="cf-succ" style="display:none">
+        <div class="succ">
+          <div style="font-size:42px;color:#C9A84C;margin-bottom:16px">✦</div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px;color:#F5F0E8;margin-bottom:14px">Thank You</div>
+          <p style="font-size:12px;color:#F5F0E860;line-height:1.9">Your inquiry has been received. A DBRE advisor will be in touch within one business day.</p>
+          <div class="gd" style="margin:22px auto"></div>
+          <p style="font-size:10px;letter-spacing:.14em;color:#C9A84C;text-transform:uppercase">Where Luxury Service Meets Genuine Connection</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EmailJS (uncomment and add credentials when ready):
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>emailjs.init("YOUR_PUBLIC_KEY");</script>
+-->
+
+<script>
+function sp(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nt').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const m={home:0,mortgage:1,netsheet:2,quiz:3,communities:4,connect:5};
+  if(m[id]!==undefined) document.querySelectorAll('.nt')[m[id]].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function fmt(n){return '$'+Math.round(n).toLocaleString()}
+function g(id){return +document.getElementById(id).value||0}
+
+function cm(){
+  const price=g('hp'),downPct=g('dp'),rate=parseFloat(document.getElementById('ir').value),term=g('lt'),taxRate=g('tr'),insurance=g('ins');
+  document.getElementById('pv').textContent=fmt(price);
+  document.getElementById('dpv').textContent=downPct+'%';
+  document.getElementById('rv').textContent=rate.toFixed(1)+'%';
+  document.getElementById('tv').textContent=term+' yrs';
+  const down=price*downPct/100,loan=price-down,mo=rate/100/12,n=term*12;
+  const pi=mo===0?loan/n:loan*mo*Math.pow(1+mo,n)/(Math.pow(1+mo,n)-1);
+  const tax=price*taxRate/100/12,ins2=insurance/12,pmi=downPct<20?loan*0.0085/12:0;
+  document.getElementById('mt').textContent=fmt(pi+tax+ins2+pmi);
+  document.getElementById('pi').textContent=fmt(pi);
+  document.getElementById('tx').textContent=fmt(tax);
+  document.getElementById('iin').textContent=fmt(ins2);
+  document.getElementById('pm').textContent=downPct<20?fmt(pmi):'N/A';
+  document.getElementById('la').textContent=fmt(loan);
+  document.getElementById('da').textContent=fmt(down);
+}
+
+function cn(){
+  const sale=g('nsp'),commPct=parseFloat(document.getElementById('nc').value);
+  document.getElementById('nsv').textContent=fmt(sale);
+  document.getElementById('ncv').textContent=commPct.toFixed(2)+'%';
+  const pre=g('nap')+g('nhi')+g('nsu')+g('npt')+g('nev')+g('nru');
+  const mort=g('nm1')+g('nm2')+g('nhl')+g('nfl');
+  const comm=sale*commPct/100,stamps=Math.round(sale/500);
+  const atty=g('nat')+g('nmi'),conc=g('nsc')+g('nhw')+g('nir');
+  const hoa=g('nhd')+g('nht'),dd=g('ndd');
+  const totalExp=pre+mort+comm+stamps+atty+conc+hoa-dd;
+  document.getElementById('npv').textContent=fmt(Math.max(0,sale-totalExp));
+  document.getElementById('ns-sale').textContent=fmt(sale);
+  document.getElementById('ns-pre').textContent=pre>0?'−'+fmt(pre):'—';
+  document.getElementById('ns-mort').textContent=mort>0?'−'+fmt(mort):'—';
+  document.getElementById('ns-comm').textContent='−'+fmt(comm);
+  document.getElementById('ns-stamps').textContent='−$'+stamps.toLocaleString();
+  document.getElementById('ns-atty').textContent='−'+fmt(atty);
+  document.getElementById('ns-conc').textContent=conc>0?'−'+fmt(conc):'—';
+  document.getElementById('ns-hoa').textContent=hoa>0?'−'+fmt(hoa):'—';
+  document.getElementById('ns-dd').textContent=dd>0?'+'+fmt(dd):'—';
+  document.getElementById('ns-tot').textContent='−'+fmt(totalExp);
+}
+
+const quizQs=[
+  {q:"Where are you in your home buying journey?",s:"This helps us understand your timeline and needs.",o:["Just starting to explore","Getting pre-approved","Have financing — ready to search","Pre-approved and actively searching"]},
+  {q:"Have you spoken with a lender?",s:"Pre-approval strengthens your position significantly.",o:["Not yet","Had an initial conversation","Pre-qualified","Fully pre-approved"]},
+  {q:"What is your target price range?",s:"This guides which communities and advisors are the best fit.",o:["Under $300K","$300K – $500K","$500K – $800K","Over $800K"]},
+  {q:"Which area interests you most?",s:"DBRE serves the full coastal Carolina market.",o:["Wilmington / New Hanover Co.","Leland / Brunswick Co.","Hampstead / Pender Co.","The Beaches"]},
+  {q:"What matters most in your search?",s:"Understanding your priorities helps us serve you better.",o:["Schools & family lifestyle","Investment potential","Walkability & community","Privacy & luxury finishes"]},
+  {q:"What is your target timeline?",s:"This determines urgency and strategy.",o:["Within 3 months","3 – 6 months","6 – 12 months","Just exploring for now"]},
+  {q:"Are you currently working with a real estate agent?",s:"We respect existing client relationships.",o:["No, I am open to DBRE","Casually — nothing signed","Yes, I have a signed agreement","I am an investor seeking a team"]}
+];
+let qA=[],cQ=0;
+
+function renderQ(){
+  const q=quizQs[cQ];
+  document.getElementById('qp').style.width=Math.max(Math.round((cQ/quizQs.length)*100),5)+'%';
+  document.getElementById('qc').innerHTML=`
+    <p style="font-size:10px;letter-spacing:.2em;color:#C9A84C;margin-bottom:12px;text-transform:uppercase">Question ${cQ+1} of ${quizQs.length}</p>
+    <div class="qq">${q.q}</div><div class="qs">${q.s}</div>
+    <div class="qo" id="qopts">${q.o.map((o,i)=>`<div class="qopt" onclick="selO(${i})">${o}</div>`).join('')}</div>
+    <div style="display:flex;gap:10px">
+      ${cQ>0?'<button class="gho" style="max-width:120px" onclick="prevQ()">← Back</button>':''}
+      <button class="gho" id="qnext" style="display:none;max-width:160px" onclick="nextQ()">Next →</button>
+    </div>`;
+  if(qA[cQ]!==undefined){
+    document.querySelectorAll('.qopt')[qA[cQ]].classList.add('sel');
+    document.getElementById('qnext').style.display='block';
+    if(cQ===quizQs.length-1)document.getElementById('qnext').textContent='See My Results →';
+  }
+}
+function selO(i){
+  document.querySelectorAll('.qopt').forEach((o,idx)=>o.classList.toggle('sel',idx===i));
+  qA[cQ]=i;
+  document.getElementById('qnext').style.display='block';
+  if(cQ===quizQs.length-1)document.getElementById('qnext').textContent='See My Results →';
+}
+function nextQ(){if(qA[cQ]===undefined)return;if(cQ<quizQs.length-1){cQ++;renderQ();}else showRes();}
+function prevQ(){if(cQ>0){cQ--;renderQ();}}
+function showRes(){
+  document.getElementById('qp').style.width='100%';
+  const hasAgent=qA[6]===2,lender=qA[1],timeline=qA[5],journey=qA[0];
+  let badge,heading,msg;
+  if(hasAgent){badge='Agent on File';heading="It Looks Like You're Already Represented";msg='We noticed you have a signed agreement with another agent. We respect that commitment and encourage you to honor it. If your situation changes, we would be honored to connect.';}
+  else if(lender>=2&&timeline<=1&&journey>=2){badge='Purchase-Ready';heading='You Are Ready for the DBRE Experience';msg='You have done the right preparation — financing is in place and your timeline is near-term. A DBRE advisor can begin curating properties for you immediately.';}
+  else if(lender>=1&&timeline<=2){badge='Actively Preparing';heading='You Are Making Strong Progress';msg='You are on the right path. Formalizing your pre-approval and clarifying your must-haves will position you to move confidently when the right property surfaces.';}
+  else{badge='Early Stage Buyer';heading='Your Journey Is Just Beginning';msg='The best first step is connecting with a lender to understand your buying power, then scheduling a discovery call with a DBRE advisor.';}
+  document.getElementById('qc').innerHTML=`
+    <div class="rc">
+      <div class="rbdg">${badge}</div>
+      <div class="rh">${heading}</div>
+      <p class="rp">${msg}</p>
+      ${!hasAgent?`<button class="gbtn" style="max-width:280px;margin:0 auto 12px;display:block" onclick="sp('connect')">Connect With an Advisor</button>`:''}
+      <button class="gho" style="max-width:280px;margin:0 auto;display:block" onclick="restartQ()">Start Over</button>
+    </div>`;
+}
+function restartQ(){qA=[];cQ=0;renderQ();}
+
+const neighborhoods=[
+  {c:'New Hanover',n:'Wilmington',p:'From $250K',t:['Urban','Historic','All Price Points']},
+  {c:'New Hanover',n:'Landfall',p:'From $600K',t:['Gated','Golf','Prestige']},
+  {c:'New Hanover',n:'Porters Neck',p:'From $450K',t:['Waterway','Golf','Community']},
+  {c:'New Hanover',n:'Mayfaire',p:'From $350K',t:['Walkable','Shopping','New Build']},
+  {c:'New Hanover',n:'Ogden / Scotts Hill',p:'From $320K',t:['Suburban','Family','Growing']},
+  {c:'Brunswick',n:'Leland',p:'From $220K',t:['Growing','Affordable','Suburban']},
+  {c:'Brunswick',n:'Brunswick Forest',p:'From $300K',t:['Master Planned','Amenities','Popular']},
+  {c:'Brunswick',n:'RiverLights',p:'From $350K',t:['Waterfront','New Build','Marina']},
+  {c:'Brunswick',n:'Compass Pointe',p:'From $280K',t:['Active Adult','Golf','Gated']},
+  {c:'Brunswick',n:'Magnolia Greens',p:'From $250K',t:['Golf','Established','Value']},
+  {c:'Pender',n:'Hampstead',p:'From $300K',t:['Growing','Land','Suburban']},
+  {c:'Pender',n:'Topsail Area',p:'From $280K',t:['Rural','Acreage','Quiet']},
+  {c:'Beach',n:'Wrightsville Beach',p:'From $800K',t:['Prestige','Lifestyle','Investment']},
+  {c:'Beach',n:'Carolina Beach',p:'From $400K',t:['Vibrant','Boardwalk','Rental']},
+  {c:'Beach',n:'Kure Beach',p:'From $380K',t:['Quiet','Family','Coastal']},
+  {c:'Beach',n:'Oak Island',p:'From $350K',t:['Brunswick Beaches','Relaxed','Value']},
+  {c:'Beach',n:'Holden Beach',p:'From $400K',t:['Family','Quiet','Seasonal']},
+  {c:'Beach',n:'Surf City / Topsail Island',p:'From $400K',t:['Pender Beaches','Rental','Vacation']},
+];
+function renderN(f){
+  const list=f==='all'?neighborhoods:neighborhoods.filter(n=>n.c===f);
+  document.getElementById('ng').innerHTML=list.map(n=>`
+    <div class="nc" onclick="this.classList.toggle('sel')">
+      <div class="nm">${n.c==='Beach'?'The Beaches':n.c+' Co.'}</div>
+      <div class="nn">${n.n}</div>
+      <div class="np">${n.p}</div>
+      <div class="ntags">${n.t.map(t=>`<span class="ntag">${t}</span>`).join('')}</div>
+    </div>`).join('');
+}
+function filterN(m,btn){
+  document.querySelectorAll('.cb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderN(m);
+}
+
+const advisors=[
+  {i:'CB',n:'Carolyn Blue',t:'Elite Advisor'},
+  {i:'DS',n:'Devon Shepard',t:'Senior Advisor'},
+  {i:'MG',n:'Marie Howard Griffin',t:'Senior Advisor'},
+  {i:'GT',n:'The Graham Team',t:'Dezarae & Christopher Graham · Real Estate Advisors'},
+  {i:'DB',n:'Derrick Blanks II',t:'Real Estate Advisor'},
+  {i:'DB',n:'Dana Blanks',t:'Principal Broker'},
+];
+function renderAdvisors(){
+  document.getElementById('adv-list').innerHTML=advisors.map(a=>`
+    <div class="ar" onclick="selAdv(this,'${a.n}')">
+      <div class="av">${a.i}</div>
+      <div style="flex:1">
+        <div class="an">${a.n}</div>
+        <div class="at" style="${a.n==='The Graham Team'?'font-size:9px':''}">${a.t}</div>
+      </div>
+      <div style="font-size:9px;letter-spacing:.09em;color:#C9A84C66;flex-shrink:0">All Markets</div>
+    </div>`).join('');
+}
+function selAdv(el,name){
+  document.querySelectorAll('.ar').forEach(r=>r.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('cfadv').value=name;
+  document.getElementById('cfm').placeholder='Hi '+name.split(' ')[0]+', I am reaching out because...';
+}
+function agc(){document.getElementById('aw').style.display=document.getElementById('cfa').value==='yes'?'block':'none';}
+function subCF(){
+  const first=document.getElementById('cf1').value.trim();
+  const email=document.getElementById('cfe').value.trim();
+  if(!first||!email){alert('Please enter your name and email to continue.');return;}
+  /* EmailJS — uncomment when credentials are ready:
+  emailjs.send('YOUR_SERVICE_ID','YOUR_TEMPLATE_ID',{
+    first_name: first,
+    last_name: document.getElementById('cf2').value,
+    email: email,
+    phone: document.getElementById('cfp').value,
+    client_type: document.getElementById('cft').value,
+    existing_agent: document.getElementById('cfa').value,
+    preferred_advisor: document.getElementById('cfadv').value,
+    message: document.getElementById('cfm').value
+  }).then(()=>console.log('Sent')).catch(e=>console.error(e));
+  */
+  document.getElementById('cf-area').style.display='none';
+  document.getElementById('cf-succ').style.display='block';
+}
+
+cm();cn();renderQ();renderN('all');renderAdvisors();
+</script>
+</body>
+</html>

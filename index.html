@@ -97,7 +97,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 .ar:hover{border-color:#C9A84C44;background:#272727}
 .ar.sel{border-color:#C9A84C;background:#C9A84C0D}
 .av{width:44px;height:44px;border-radius:50%;background:#C9A84C22;border:1px solid #C9A84C44;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;color:#C9A84C;flex-shrink:0}
-.an{font-size:13px;color:#F5F0E8;font-weight:500;margin-bottom:2px}
+.an{font-size:13px;color:#C8BFB0;font-weight:500;margin-bottom:2px}
 .at{font-size:10px;letter-spacing:.07em;color:#F5F0E890}
 .wb{background:#C9A84C11;border:1px solid #C9A84C44;border-radius:3px;padding:12px 14px;margin-top:12px;font-size:11px;color:#C9A84C;line-height:1.8}
 .succ{text-align:center;padding:48px 24px}
@@ -133,6 +133,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
   <button class="nt" onclick="sp('netsheet')">Seller Net Sheet</button>
   <button class="nt" onclick="sp('quiz')">Buyer Readiness</button>
   <button class="nt" onclick="sp('communities')">Communities</button>
+  <button class="nt" onclick="sp('sellerquiz')">Seller Readiness</button>
   <button class="nt" onclick="sp('connect')">Connect</button>
 </div>
 
@@ -160,23 +161,27 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
       <div class="tt">Buyer Readiness</div>
       <div class="td">Find out where you stand and what your next step should be</div>
     </div>
-    <div class="tc" onclick="sp('communities')">
-      <div class="ti">◉</div>
-      <div class="tt">Communities</div>
-      <div class="td">Explore New Hanover, Brunswick & Pender counties and the beaches</div>
-    </div>
-    <div class="tc" onclick="sp('connect')">
-      <div class="ti">◈</div>
-      <div class="tt">Connect With Us</div>
-      <div class="td">Reach the DBRE advisor best suited to your goals</div>
-    </div>
     <div class="tc" onclick="window.open('https://danablanksrealestate.com/search-property/','_blank')">
       <div class="ti">⌂</div>
       <div class="tt">Search Listings</div>
       <div class="td">Browse available properties across our coastal Carolina markets</div>
     </div>
-  </div>
-  <div class="footer">
+    <div class="tc" onclick="sp('communities')">
+      <div class="ti">◉</div>
+      <div class="tt">Communities</div>
+      <div class="td">Explore New Hanover, Brunswick & Pender counties and the beaches</div>
+    </div>
+    <div class="tc" onclick="sp('sellerquiz')">
+      <div class="ti">◎</div>
+      <div class="tt">Seller Readiness</div>
+      <div class="td">Find out if now is the right time to sell and what your next step should be</div>
+    </div>
+    <div class="tc" onclick="sp('connect')">
+      <div class="ti">✦</div>
+      <div class="tt">Connect With Us</div>
+      <div class="td">Reach the DBRE advisor best suited to your goals</div>
+    </div>
+  </div><div class="footer">
     <p>Dana Blanks Real Estate &nbsp;<span>·</span>&nbsp; NC Firm License #C20805 &nbsp;<span>·</span>&nbsp; Licensed in NC · SC · GA</p>
     <p style="margin-top:6px">Where Luxury Service Meets Genuine Connection</p>
   </div>
@@ -289,6 +294,14 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
   <div class="ng" id="ng"></div>
 </div>
 
+<div id="panel-sellerquiz" class="panel">
+  <div class="sl">Seller Readiness Assessment</div>
+  <div style="max-width:600px">
+    <div class="pb"><div class="pf" id="sqp" style="width:5%"></div></div>
+    <div id="sqc"></div>
+  </div>
+</div>
+
 <div id="panel-connect" class="panel">
   <div class="sl">Connect With DBRE</div>
   <div id="advisor-welcome" style="display:none;background:#C9A84C11;border:1px solid #C9A84C33;border-radius:4px;padding:14px 20px;margin-bottom:20px;font-size:12px;color:#C9A84C;letter-spacing:.04em;line-height:1.7"></div>
@@ -345,15 +358,17 @@ function sp(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nt').forEach(t=>t.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const m={home:0,mortgage:1,netsheet:2,quiz:3,communities:4,connect:5};
+  const m={home:0,mortgage:1,netsheet:2,quiz:3,communities:4,sellerquiz:5,connect:6};
   if(m[id]!==undefined) document.querySelectorAll('.nt')[m[id]].classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   // Update URL hash for deep linking
-  if(id==='home'){
-    history.replaceState(null,null,' ');
-  } else {
-    history.replaceState(null,null,'#'+id);
-  }
+  try {
+    if(id==='home'){
+      history.replaceState(null,null,' ');
+    } else {
+      history.replaceState(null,null,'#'+id);
+    }
+  } catch(e){}
 }
 
 // Deep link handler — read hash on load and route accordingly
@@ -368,7 +383,7 @@ const advisorSlugs={
 
 function handleDeepLink(){
   const hash=window.location.hash.replace('#','');
-  const valid=['mortgage','netsheet','quiz','communities','connect'];
+  const valid=['mortgage','netsheet','quiz','sellerquiz','communities','connect'];
   
   // Check for advisor-specific connect link e.g. #connect-carolyn
   if(hash.startsWith('connect-')){
@@ -489,7 +504,7 @@ function showRes(){
   document.getElementById('qp').style.width='100%';
   const hasAgent=qA[6]===2,lender=qA[1],timeline=qA[5],journey=qA[0];
   let badge,heading,msg;
-  if(hasAgent){badge='Agent on File';heading="It Looks Like You're Already Represented";msg='We noticed you have a signed agreement with another agent. We respect that commitment and encourage you to honor it. If your situation changes, we would be honored to connect.';}
+  if(hasAgent){badge='Agent on File';heading="It Looks Like You&#39;re Already Represented";msg='We noticed you have a signed agreement with another agent. We respect that commitment and encourage you to honor it. If your situation changes, we would be honored to connect.';}
   else if(lender>=2&&timeline<=1&&journey>=2){badge='Purchase-Ready';heading='You Are Ready for the DBRE Experience';msg='You have done the right preparation — financing is in place and your timeline is near-term. A DBRE advisor can begin curating properties for you immediately.';}
   else if(lender>=1&&timeline<=2){badge='Actively Preparing';heading='You Are Making Strong Progress';msg='You are on the right path. Formalizing your pre-approval and clarifying your must-haves will position you to move confidently when the right property surfaces.';}
   else{badge='Early Stage Buyer';heading='Your Journey Is Just Beginning';msg='The best first step is connecting with a lender to understand your buying power, then scheduling a discovery call with a DBRE advisor.';}
@@ -515,6 +530,11 @@ const neighborhoods=[
   {c:'Brunswick',n:'RiverLights',p:'From $350K',t:['Waterfront','New Build','Marina']},
   {c:'Brunswick',n:'Compass Pointe',p:'From $280K',t:['Active Adult','Golf','Gated']},
   {c:'Brunswick',n:'Magnolia Greens',p:'From $250K',t:['Golf','Established','Value']},
+  {c:'Brunswick',n:'St. James',p:'From $300K',t:['Gated','Golf','Waterway']},
+  {c:'Brunswick',n:'Southport',p:'From $280K',t:['Historic','Waterfront','Charming']},
+  {c:'Brunswick',n:'Shallotte',p:'From $200K',t:['Growing','Affordable','Central']},
+  {c:'Brunswick',n:'Winnabow',p:'From $240K',t:['Rural','Land','Quiet']},
+  {c:'Brunswick',n:'Bolivia',p:'From $220K',t:['Rural','Acreage','Value']},
   {c:'Pender',n:'Hampstead',p:'From $300K',t:['Growing','Land','Suburban']},
   {c:'Pender',n:'Topsail Area',p:'From $280K',t:['Rural','Acreage','Quiet']},
   {c:'Beach',n:'Wrightsville Beach',p:'From $800K',t:['Prestige','Lifestyle','Investment']},
@@ -523,6 +543,8 @@ const neighborhoods=[
   {c:'Beach',n:'Oak Island',p:'From $350K',t:['Brunswick Beaches','Relaxed','Value']},
   {c:'Beach',n:'Holden Beach',p:'From $400K',t:['Family','Quiet','Seasonal']},
   {c:'Beach',n:'Surf City / Topsail Island',p:'From $400K',t:['Pender Beaches','Rental','Vacation']},
+  {c:'Beach',n:'Ocean Isle Beach',p:'From $380K',t:['Brunswick Beaches','Family','Relaxed']},
+  {c:'Beach',n:'Bald Head Island',p:'From $800K',t:['No Cars','Ferry Access','Exclusive']},
 ];
 function renderN(f){
   const list=f==='all'?neighborhoods:neighborhoods.filter(n=>n.c===f);
@@ -621,7 +643,85 @@ function subCF(){
   document.getElementById('cf-succ').style.display='block';
 }
 
-cm();cn();renderQ();renderN('all');renderAdvisors();handleDeepLink();
+
+const sellerQs=[
+  {q:"What is your primary motivation for selling?",s:"Understanding your motivation helps us guide you to the right strategy.",o:["Upsizing or downsizing","Relocating for work or family","Investment or estate decision","Just exploring my options"]},
+  {q:"What is your target timeline to sell?",s:"This determines urgency and the right preparation approach.",o:["As soon as possible","3 – 6 months","6 – 12 months","Not sure yet"]},
+  {q:"Do you have a sense of your home's current value?",s:"Understanding your equity position is a key first step.",o:["No idea — I need a valuation","Rough idea from online tools","I have a recent appraisal","Yes, I know my market value well"]},
+  {q:"Do you have an existing mortgage on the property?",s:"This affects your net proceeds and flexibility.",o:["No mortgage — I own it free and clear","Yes, with significant equity","Yes, equity is limited","It is a land or investment property"]},
+  {q:"How would you describe the current condition of your property?",s:"Condition affects pricing strategy and preparation needs.",o:["Move-in ready, no work needed","Minor updates or cosmetic work","Some repairs or updates needed","Major renovation or as-is sale"]},
+  {q:"Have you spoken with a real estate advisor about selling?",s:"This helps us understand where you are in the process.",o:["No, you would be my first conversation","Had a casual conversation","Received a market analysis","Currently interviewing advisors"]},
+  {q:"Are you currently working with a real estate agent?",s:"We respect existing client relationships.",o:["No, I am open to DBRE","Casually — nothing signed","Yes, I have a signed listing agreement","I am an investor or estate representative"]}
+];
+
+let sqA=[],cSQ=0;
+
+function renderSQ(){
+  const q=sellerQs[cSQ];
+  document.getElementById('sqp').style.width=Math.max(Math.round((cSQ/sellerQs.length)*100),5)+'%';
+  document.getElementById('sqc').innerHTML=`
+    <p style="font-size:10px;letter-spacing:.2em;color:#C9A84C;margin-bottom:12px;text-transform:uppercase">Question ${cSQ+1} of ${sellerQs.length}</p>
+    <div class="qq">${q.q}</div><div class="qs">${q.s}</div>
+    <div class="qo" id="sqopts">${q.o.map((o,i)=>`<div class="qopt" onclick="selSO(${i})">${o}</div>`).join('')}</div>
+    <div style="display:flex;gap:10px">
+      ${cSQ>0?'<button class="gho" style="max-width:120px" onclick="prevSQ()">← Back</button>':''}
+      <button class="gho" id="sqnext" style="display:none;max-width:160px" onclick="nextSQ()">Next →</button>
+    </div>`;
+  if(sqA[cSQ]!==undefined){
+    document.querySelectorAll('#sqopts .qopt')[sqA[cSQ]].classList.add('sel');
+    document.getElementById('sqnext').style.display='block';
+    if(cSQ===sellerQs.length-1)document.getElementById('sqnext').textContent='See My Results →';
+  }
+}
+
+function selSO(i){
+  document.querySelectorAll('#sqopts .qopt').forEach((o,idx)=>o.classList.toggle('sel',idx===i));
+  sqA[cSQ]=i;
+  document.getElementById('sqnext').style.display='block';
+  if(cSQ===sellerQs.length-1)document.getElementById('sqnext').textContent='See My Results →';
+}
+
+function nextSQ(){if(sqA[cSQ]===undefined)return;if(cSQ<sellerQs.length-1){cSQ++;renderSQ();}else showSQResult();}
+function prevSQ(){if(cSQ>0){cSQ--;renderSQ();}}
+
+function showSQResult(){
+  document.getElementById('sqp').style.width='100%';
+  const hasAgent=sqA[6]===2;
+  const timeline=sqA[1];
+  const knowledge=sqA[2];
+  const advisor=sqA[5];
+  let badge,heading,msg;
+  if(hasAgent){
+    badge='Listing Agreement on File';
+    heading="It Looks Like You&#39;re Already Represented";
+    msg='We noticed you have a signed listing agreement with another agent. We respect that commitment and encourage you to honor it. If your situation changes, we would be honored to connect.';
+  } else if(timeline<=1&&knowledge>=2&&advisor>=1){
+    badge='Market Ready';
+    heading='You Are Ready to List with DBRE';
+    msg='You have the right preparation in place — you understand your value, your timeline is clear, and you are ready to move. A DBRE advisor can begin your listing strategy immediately.';
+  } else if(timeline<=2&&knowledge>=1){
+    badge='Actively Preparing';
+    heading='You Are Making Strong Progress';
+    msg='You have a clear picture of your goals. The next step is a professional market analysis to confirm your pricing position and a conversation with a DBRE advisor to map out your selling strategy.';
+  } else {
+    badge='Early Stage Seller';
+    heading='Your Selling Journey Is Just Beginning';
+    msg='The best first step is a no-obligation market analysis to understand what your property is worth in today&#39;s market. A DBRE advisor can walk you through your options with no pressure.';
+  }
+  document.getElementById('sqc').innerHTML=`
+    <div class="rc">
+      <div class="rbdg">${badge}</div>
+      <div class="rh">${heading}</div>
+      <p class="rp">${msg}</p>
+      ${!hasAgent?`<button class="gbtn" style="max-width:280px;margin:0 auto 12px;display:block" onclick="sp('connect')">Connect With an Advisor</button>`:''}
+      <button class="gho" style="max-width:280px;margin:0 auto;display:block" onclick="restartSQ()">Start Over</button>
+    </div>`;
+}
+
+function restartSQ(){sqA=[];cSQ=0;renderSQ();}
+
+cm();cn();renderQ();renderSQ();renderN('all');renderAdvisors();handleDeepLink();
+
 </script>
 </body>
 </html>

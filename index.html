@@ -291,6 +291,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 
 <div id="panel-connect" class="panel">
   <div class="sl">Connect With DBRE</div>
+  <div id="advisor-welcome" style="display:none;background:#C9A84C11;border:1px solid #C9A84C33;border-radius:4px;padding:14px 20px;margin-bottom:20px;font-size:12px;color:#C9A84C;letter-spacing:.04em;line-height:1.7"></div>
   <div class="two">
     <div>
       <p style="font-size:11px;color:#F5F0E898;line-height:1.9;margin-bottom:20px;letter-spacing:.02em">Select your preferred advisor or let us match you. All DBRE advisors serve the full coastal Carolina market area.</p>
@@ -347,6 +348,61 @@ function sp(id){
   const m={home:0,mortgage:1,netsheet:2,quiz:3,communities:4,connect:5};
   if(m[id]!==undefined) document.querySelectorAll('.nt')[m[id]].classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
+  // Update URL hash for deep linking
+  if(id==='home'){
+    history.replaceState(null,null,' ');
+  } else {
+    history.replaceState(null,null,'#'+id);
+  }
+}
+
+// Deep link handler — read hash on load and route accordingly
+const advisorSlugs={
+  'dana':'Dana Blanks',
+  'carolyn':'Carolyn Blue',
+  'devon':'Devon Shepard',
+  'marie':'Marie Howard Griffin',
+  'graham':'The Graham Team',
+  'derrick':'Derrick Blanks II'
+};
+
+function handleDeepLink(){
+  const hash=window.location.hash.replace('#','');
+  const valid=['mortgage','netsheet','quiz','communities','connect'];
+  
+  // Check for advisor-specific connect link e.g. #connect-carolyn
+  if(hash.startsWith('connect-')){
+    const slug=hash.replace('connect-','');
+    const advisorName=advisorSlugs[slug];
+    sp('connect');
+    if(advisorName){
+      // Wait for DOM then pre-select the advisor
+      setTimeout(()=>{
+        const rows=document.querySelectorAll('.ar');
+        rows.forEach(row=>{
+          const name=row.querySelector('.an').textContent;
+          if(name===advisorName){
+            row.classList.add('sel');
+            document.getElementById('cfadv').value=advisorName;
+            document.getElementById('cfm').placeholder='Hi '+advisorName.split(' ')[0]+', I am reaching out because...';
+            // Scroll advisor into view
+            row.scrollIntoView({behavior:'smooth',block:'center'});
+          }
+        });
+        // Show a subtle welcome message
+        const welcome=document.getElementById('advisor-welcome');
+        if(welcome && advisorName){
+          welcome.innerHTML='You&#39;ve been connected with <strong>'+advisorName+'</strong>. Complete the form below to get started.';
+          welcome.style.display='block';
+        }
+      },100);
+    }
+    return;
+  }
+  
+  if(hash && valid.includes(hash)){
+    sp(hash);
+  }
 }
 
 function fmt(n){return '$'+Math.round(n).toLocaleString()}
@@ -565,7 +621,7 @@ function subCF(){
   document.getElementById('cf-succ').style.display='block';
 }
 
-cm();cn();renderQ();renderN('all');renderAdvisors();
+cm();cn();renderQ();renderN('all');renderAdvisors();handleDeepLink();
 </script>
 </body>
 </html>

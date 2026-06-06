@@ -15,7 +15,7 @@ body{font-family:'Montserrat',sans-serif;background:#1C1C1C;color:#F5F0E8;min-he
 .lt{font-family:'Playfair Display',serif;font-size:15px;letter-spacing:.15em;color:#C9A84C;text-transform:uppercase}
 .ls{font-size:9px;letter-spacing:.25em;color:#F5F0E880;text-transform:uppercase;margin-top:2px}
 .hc{font-size:11px;color:#F5F0E8B0;letter-spacing:.05em;text-align:right;line-height:1.8}
-.hc span{color:#C9A84C}
+.hc span{color:#C9A84C} .hc a{color:#C9A84C;text-decoration:none} a[href^='tel']{color:#C9A84C !important;text-decoration:none !important}
 .navtabs{display:flex;background:#161616;border-bottom:1px solid #C9A84C22;padding:0 32px;overflow-x:auto;position:sticky;top:61px;z-index:99}
 .nt{padding:14px 18px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#F5F0E890;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;font-weight:500;background:none;border-top:none;border-left:none;border-right:none;font-family:'Montserrat',sans-serif}
 .nt:hover{color:#F5F0E8AA}
@@ -122,7 +122,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
     <div class="ls">Real Estate · Client Portal</div>
   </div>
   <div class="hc">
-    <div><span>910.800.0964</span></div>
+    <div><span style="-webkit-text-fill-color:#C9A84C;color:#C9A84C">910.800.0964</span></div>
     <div>team@danablanksrealestate.com</div>
   </div>
 </div>
@@ -170,9 +170,14 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
       <div class="tt">Connect With Us</div>
       <div class="td">Reach the DBRE advisor best suited to your goals</div>
     </div>
+    <div class="tc" onclick="window.open('https://danablanksrealestate.com/search-property/','_blank')">
+      <div class="ti">⌂</div>
+      <div class="tt">Search Listings</div>
+      <div class="td">Browse available properties across our coastal Carolina markets</div>
+    </div>
   </div>
   <div class="footer">
-    <p>Dana Blanks Real Estate &nbsp;<span>·</span>&nbsp; NC License #229987 &nbsp;<span>·</span>&nbsp; Licensed in NC · SC · GA</p>
+    <p>Dana Blanks Real Estate &nbsp;<span>·</span>&nbsp; NC Firm License #C20805 &nbsp;<span>·</span>&nbsp; Licensed in NC · SC · GA</p>
     <p style="margin-top:6px">Where Luxury Service Meets Genuine Connection</p>
   </div>
 </div>
@@ -312,6 +317,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
             </select>
           </div>
           <div class="fg cff"><label class="fl">Preferred Advisor</label><input type="text" class="fi" id="cfadv" placeholder="No preference" name="preferred_advisor" readonly></div>
+          <div class="fg cff"><label class="fl">Communities of Interest</label><input type="text" class="fi" id="cf-communities" name="communities" placeholder="Select communities on the Communities tab" readonly></div>
           <div class="fg cff"><label class="fl">Message</label><textarea class="ta" id="cfm" name="message" placeholder="Tell us about your goals..."></textarea></div>
         </div>
         <div id="aw" style="display:none" class="wb">We respect existing client relationships. If you have a signed agreement with another agent, we encourage you to honor that commitment. You are still welcome to submit your inquiry and we will follow up appropriately.</div>
@@ -465,12 +471,46 @@ const neighborhoods=[
 function renderN(f){
   const list=f==='all'?neighborhoods:neighborhoods.filter(n=>n.c===f);
   document.getElementById('ng').innerHTML=list.map(n=>`
-    <div class="nc" onclick="this.classList.toggle('sel')">
+    <div class="nc" onclick="toggleComm(this,'${n.n}')">
       <div class="nm">${n.c==='Beach'?'The Beaches':n.c+' Co.'}</div>
       <div class="nn">${n.n}</div>
       <div class="np">${n.p}</div>
       <div class="ntags">${n.t.map(t=>`<span class="ntag">${t}</span>`).join('')}</div>
     </div>`).join('');
+  // Re-highlight any previously selected communities
+  document.querySelectorAll('.nc').forEach(card=>{
+    const name=card.querySelector('.nn').textContent;
+    if(selectedCommunities.includes(name)) card.classList.add('sel');
+  });
+}
+
+let selectedCommunities=[];
+
+function toggleComm(el,name){
+  el.classList.toggle('sel');
+  if(selectedCommunities.includes(name)){
+    selectedCommunities=selectedCommunities.filter(c=>c!==name);
+  } else {
+    selectedCommunities.push(name);
+  }
+  updateCommField();
+}
+
+function updateCommField(){
+  const field=document.getElementById('cf-communities');
+  if(field){
+    field.value=selectedCommunities.length>0?selectedCommunities.join(', '):'No specific communities selected';
+  }
+  const prompt=document.getElementById('comm-prompt');
+  const promptList=document.getElementById('comm-prompt-list');
+  if(prompt){
+    if(selectedCommunities.length>0){
+      prompt.style.display='flex';
+      promptList.textContent=selectedCommunities.join(' · ');
+    } else {
+      prompt.style.display='none';
+    }
+  }
 }
 function filterN(m,btn){
   document.querySelectorAll('.cb').forEach(b=>b.classList.remove('active'));
@@ -518,6 +558,7 @@ function subCF(){
     client_type: document.getElementById('cft').value,
     existing_agent: document.getElementById('cfa').value,
     preferred_advisor: document.getElementById('cfadv').value,
+    communities: selectedCommunities.length>0?selectedCommunities.join(', '):'No specific communities selected',
     message: document.getElementById('cfm').value
   }).then(()=>console.log('DBRE Portal: inquiry sent')).catch(e=>console.error('EmailJS error:',e));
   document.getElementById('cf-area').style.display='none';

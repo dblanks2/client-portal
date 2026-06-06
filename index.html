@@ -27,7 +27,7 @@ body{font-family:'Montserrat',sans-serif;background:#1C1C1C;color:#F5F0E8;min-he
 .hero h1 em{color:#C9A84C;font-style:italic}
 .hero p{font-size:12px;letter-spacing:.06em;color:#F5F0E898;max-width:500px;margin:0 auto;line-height:1.9}
 .gd{width:48px;height:1px;background:#C9A84C;margin:18px auto}
-.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:16px}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .tc{background:#242424;border:1px solid #C9A84C22;border-radius:4px;padding:24px 20px;cursor:pointer;transition:border-color .25s,background .25s,transform .2s;text-align:center}
 .tc:hover{border-color:#C9A84C66;background:#2A2A2A;transform:translateY(-2px)}
 .ti{font-size:26px;color:#C9A84C;margin-bottom:14px}
@@ -521,13 +521,16 @@ function restartQ(){qA=[];cQ=0;renderQ();}
 
 const neighborhoods=[
   {c:'New Hanover',n:'Wilmington',p:'From $250K',t:['Urban','Historic','All Price Points']},
+  {c:'New Hanover',n:'Midtown Wilmington',p:'From $280K',t:['Established','Convenient','Lifestyle']},
+  {c:'New Hanover',n:'Historic Downtown',p:'From $300K',t:['Walkable','Character','Arts District']},
   {c:'New Hanover',n:'Landfall',p:'From $600K',t:['Gated','Golf','Prestige']},
   {c:'New Hanover',n:'Porters Neck',p:'From $450K',t:['Waterway','Golf','Community']},
   {c:'New Hanover',n:'Mayfaire',p:'From $350K',t:['Walkable','Shopping','New Build']},
+  {c:'New Hanover',n:'RiverLights',p:'From $350K',t:['Waterfront','New Build','Marina']},
   {c:'New Hanover',n:'Ogden / Scotts Hill',p:'From $320K',t:['Suburban','Family','Growing']},
   {c:'Brunswick',n:'Leland',p:'From $220K',t:['Growing','Affordable','Suburban']},
   {c:'Brunswick',n:'Brunswick Forest',p:'From $300K',t:['Master Planned','Amenities','Popular']},
-  {c:'Brunswick',n:'RiverLights',p:'From $350K',t:['Waterfront','New Build','Marina']},
+
   {c:'Brunswick',n:'Compass Pointe',p:'From $280K',t:['Active Adult','Golf','Gated']},
   {c:'Brunswick',n:'Magnolia Greens',p:'From $250K',t:['Golf','Established','Value']},
   {c:'Brunswick',n:'St. James',p:'From $300K',t:['Gated','Golf','Waterway']},
@@ -535,6 +538,7 @@ const neighborhoods=[
   {c:'Brunswick',n:'Shallotte',p:'From $200K',t:['Growing','Affordable','Central']},
   {c:'Brunswick',n:'Winnabow',p:'From $240K',t:['Rural','Land','Quiet']},
   {c:'Brunswick',n:'Bolivia',p:'From $220K',t:['Rural','Acreage','Value']},
+  {c:'Pender',n:'Burgaw',p:'From $180K',t:['County Seat','Charming','Value']},
   {c:'Pender',n:'Hampstead',p:'From $300K',t:['Growing','Land','Suburban']},
   {c:'Pender',n:'Topsail Area',p:'From $280K',t:['Rural','Acreage','Quiet']},
   {c:'Beach',n:'Wrightsville Beach',p:'From $800K',t:['Prestige','Lifestyle','Investment']},

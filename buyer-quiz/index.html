@@ -4,37 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buyer Readiness · Dana Blanks Real Estate</title>
-<meta name="description" content="Find out where you stand in your home buying journey. A quick 7-question assessment from Dana Blanks Real Estate.">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{--gold:#C9A84C;--gold-light:#D4AF6A;--bg:#1C1C1C;--card:#242424;--cream:#F5F0E8;--muted:#A89880;--border:rgba(201,168,76,0.2)}
   body{background:var(--bg);color:var(--cream);font-family:'Montserrat',sans-serif;min-height:100vh;display:flex;flex-direction:column}
-
-  /* Header */
   .hdr{border-bottom:1px solid var(--border);padding:20px 32px;display:flex;align-items:center;justify-content:space-between}
   .hdr-brand{font-family:'Playfair Display',serif;font-size:14px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
   .hdr-sub{font-size:9px;letter-spacing:.22em;color:rgba(245,240,232,0.45);text-transform:uppercase;margin-top:2px}
   .hdr-contact{font-size:11px;color:rgba(245,240,232,0.5);text-align:right;line-height:1.8}
   .hdr-contact span{color:var(--gold)}
-
-  /* Hero */
   .hero{text-align:center;padding:52px 24px 44px;border-bottom:1px solid var(--border)}
   .hero-eyebrow{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
   .hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:400;color:var(--cream);line-height:1.3;margin-bottom:12px}
   .hero-title em{color:var(--gold);font-style:italic}
   .hero-rule{width:44px;height:1px;background:var(--gold);margin:16px auto}
   .hero-sub{font-size:12px;color:var(--muted);line-height:1.9;max-width:460px;margin:0 auto}
-
-  /* Quiz container */
+  .advisor-banner{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:4px;padding:10px 20px;margin:20px auto 0;max-width:460px;font-size:11px;color:var(--gold);text-align:center;display:none}
   .quiz-wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:44px 24px 60px;width:100%}
   .quiz-inner{width:100%;max-width:580px}
-
-  /* Progress */
   .prog-bar{height:2px;background:rgba(201,168,76,0.2);border-radius:1px;margin-bottom:32px;overflow:hidden}
   .prog-fill{height:100%;background:var(--gold);transition:width .4s ease}
-
-  /* Question */
   .q-counter{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
   .q-text{font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,22px);color:var(--cream);margin-bottom:8px;line-height:1.4}
   .q-sub{font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:28px;line-height:1.7}
@@ -43,19 +33,15 @@
   .q-opt:hover{border-color:rgba(201,168,76,0.5);color:var(--cream)}
   .q-opt.sel{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.08)}
   .q-nav{display:flex;gap:10px}
-  .btn-ghost{background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);padding:11px 24px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;cursor:pointer;border-radius:2px;transition:border-color .2s,color .2s}
+  .btn-ghost{background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.4);padding:11px 24px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;cursor:pointer;border-radius:2px;transition:border-color .2s}
   .btn-ghost:hover{border-color:var(--gold);color:var(--gold-light)}
   .btn-gold{background:var(--gold);color:#1C1C1C;border:none;padding:12px 28px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;cursor:pointer;border-radius:2px;transition:background .2s;width:100%}
   .btn-gold:hover{background:var(--gold-light)}
-
-  /* Result */
   .result-card{background:var(--card);border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:32px 28px;text-align:center;margin-bottom:28px}
   .result-badge{display:inline-block;background:rgba(201,168,76,0.12);color:var(--gold);font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:6px 16px;border-radius:2px;margin-bottom:16px}
   .result-heading{font-family:'Playfair Display',serif;font-size:22px;color:var(--cream);margin-bottom:12px;line-height:1.4}
-  .result-text{font-size:12px;color:var(--muted);line-height:1.9;max-width:420px;margin:0 auto 28px}
-  .result-rule{width:40px;height:1px;background:var(--gold);margin:20px auto}
-
-  /* Contact form */
+  .result-text{font-size:12px;color:var(--muted);line-height:1.9;max-width:420px;margin:0 auto}
+  .result-rule{width:40px;height:1px;background:var(--gold);margin:24px auto 20px}
   .cf-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--cream);margin-bottom:6px;text-align:center}
   .cf-sub{font-size:11px;color:var(--muted);text-align:center;margin-bottom:24px;line-height:1.7}
   .cf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
@@ -67,24 +53,17 @@
   .ta{width:100%;background:#2A2A2A;border:1px solid var(--border);border-radius:3px;padding:11px 14px;font-family:'Montserrat',sans-serif;font-size:13px;color:var(--cream);outline:none;resize:vertical;min-height:80px;transition:border-color .2s}
   .ta:focus{border-color:rgba(201,168,76,0.6)}
   .warn{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:11px 14px;font-size:11px;color:var(--gold);line-height:1.7;margin-bottom:14px}
-
-  /* Success */
   .success{text-align:center;padding:44px 20px}
   .success-icon{font-size:40px;color:var(--gold);margin-bottom:16px}
   .success-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--cream);margin-bottom:12px}
   .success-text{font-size:12px;color:var(--muted);line-height:1.9;max-width:380px;margin:0 auto 24px}
-
-  /* Footer */
   footer{border-top:1px solid var(--border);padding:18px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
   .footer-brand{font-family:'Playfair Display',serif;font-size:12px;color:var(--muted)}
   .footer-right{font-size:10px;letter-spacing:.1em;color:rgba(201,168,76,0.4);text-align:right}
-
   @media(max-width:560px){
-    .hdr{padding:14px 18px}
+    .hdr,.quiz-wrap,footer{padding-left:18px;padding-right:18px}
     .hero{padding:36px 18px 32px}
-    .quiz-wrap{padding:32px 18px 48px}
     .q-opts,.cf-grid{grid-template-columns:1fr}
-    footer{padding:16px 18px}
   }
 </style>
 </head>
@@ -105,7 +84,8 @@
   <div class="hero-eyebrow">Complimentary Assessment</div>
   <div class="hero-title">Are You Ready to Buy?<br><em>Find Out in 2 Minutes</em></div>
   <div class="hero-rule"></div>
-  <div class="hero-sub">Seven questions. A personalized result. And a clear next step — whatever stage you're at in your home buying journey.</div>
+  <div class="hero-sub">Seven questions. A personalized result. And a clear next step — whatever stage you&#39;re at in your home buying journey.</div>
+  <div class="advisor-banner" id="adv-banner"></div>
 </div>
 
 <div class="quiz-wrap">
@@ -116,11 +96,25 @@
 </div>
 
 <footer>
-  <div class="footer-brand">Dana Blanks Real Estate™</div>
-  <div class="footer-right">NC Firm License #C20805 · Licensed in NC · SC · GA<br>© 2026 Dana Blanks Real Estate, Inc. All Rights Reserved.</div>
+  <div class="footer-brand">Dana Blanks Real Estate&#8482;</div>
+  <div class="footer-right">NC Firm License #C20805 · Licensed in NC · SC · GA<br>&#169; 2026 Dana Blanks Real Estate, Inc. All Rights Reserved.</div>
 </footer>
 
 <script>
+// Advisor attribution from URL parameter
+const urlParams=new URLSearchParams(window.location.search);
+const advisorSlug=urlParams.get('advisor')||'';
+const advisorMap={'dana':'Dana Blanks','carolyn':'Carolyn Blue','devon':'Devon Shepard','marie':'Marie Howard Griffin','graham':'The Graham Team','derrick':'Derrick Blanks II'};
+const advisorName=advisorMap[advisorSlug]||'';
+const advisorFirst=advisorName?advisorName.split(' ')[0]:'an advisor';
+
+// Show advisor banner if attributed
+if(advisorName){
+  const banner=document.getElementById('adv-banner');
+  banner.textContent='Referred by '+advisorName+' · Dana Blanks Real Estate';
+  banner.style.display='block';
+}
+
 const Qs=[
   {q:"Where are you in your home buying journey?",s:"This helps us understand your timeline and needs.",o:["Just starting to explore","Getting pre-approved","Have financing — ready to search","Pre-approved and actively searching"]},
   {q:"Have you spoken with a lender?",s:"Pre-approval strengthens your position significantly.",o:["Not yet","Had an initial conversation","Pre-qualified","Fully pre-approved"]},
@@ -164,40 +158,28 @@ function back(){if(cur>0){cur--;render();}}
 
 function showResult(){
   document.getElementById('prog').style.width='100%';
-  const hasAgent=ans[6]===2;
-  const lender=ans[1];
-  const timeline=ans[5];
-  const journey=ans[0];
+  const hasAgent=ans[6]===2,lender=ans[1],timeline=ans[5],journey=ans[0];
   let badge,heading,msg;
-  if(hasAgent){
-    badge='Agent on File';
-    heading="It Looks Like You&#39;re Already Represented";
-    msg='We noticed you have a signed agreement with another agent. We respect that commitment and encourage you to honor it. If your situation changes, we would be honored to connect.';
-  } else if(lender>=2&&timeline<=1&&journey>=2){
-    badge='Purchase-Ready';
-    heading='You Are Ready to Find Your Home';
-    msg='You have done the right preparation — financing is in place and your timeline is near-term. A DBRE advisor can begin curating properties for you immediately.';
-  } else if(lender>=1&&timeline<=2){
-    badge='Actively Preparing';
-    heading='You Are Making Strong Progress';
-    msg='You are on the right path. Formalizing your pre-approval and clarifying your must-haves will position you to move confidently when the right property surfaces.';
-  } else {
-    badge='Early Stage Buyer';
-    heading='Your Journey Is Just Beginning';
-    msg='The best first step is connecting with a lender to understand your buying power, then scheduling a discovery call with a DBRE advisor to map out your search strategy.';
-  }
+  if(hasAgent){badge='Agent on File';heading="It Looks Like You&#39;re Already Represented";msg='We noticed you have a signed agreement with another agent. We respect that commitment. If your situation changes, we would be honored to connect.';}
+  else if(lender>=2&&timeline<=1&&journey>=2){badge='Purchase-Ready';heading='You Are Ready to Find Your Home';msg='You have done the right preparation — financing is in place and your timeline is near-term. A DBRE advisor can begin curating properties for you immediately.';}
+  else if(lender>=1&&timeline<=2){badge='Actively Preparing';heading='You Are Making Strong Progress';msg='You are on the right path. Formalizing your pre-approval and clarifying your must-haves will position you to move confidently when the right property surfaces.';}
+  else{badge='Early Stage Buyer';heading='Your Journey Is Just Beginning';msg='The best first step is connecting with a lender to understand your buying power, then scheduling a discovery call with a DBRE advisor.';}
 
-  const formHTML = hasAgent ? `<button class="btn-ghost" style="width:100%;margin-top:8px" onclick="restart()">Start Over</button>` : `
+  const cfTitle=advisorName?'Connect With '+advisorName:'Connect With a DBRE Advisor';
+  const cfSub=advisorName?advisorFirst+' will be in touch within one business day.':'Tell us a little about yourself and we&#39;ll be in touch within one business day.';
+  const msgPlaceholder=advisorName?'Hi '+advisorFirst+', I am reaching out because...':'Tell us about your goals...';
+
+  const formHTML=hasAgent?`<button class="btn-ghost" style="width:100%;margin-top:8px" onclick="restart()">Start Over</button>`:`
     <div class="result-rule"></div>
-    <div class="cf-title">Connect With a DBRE Advisor</div>
-    <div class="cf-sub">Tell us a little about yourself and we&#39;ll be in touch within one business day.</div>
+    <div class="cf-title">${cfTitle}</div>
+    <div class="cf-sub">${cfSub}</div>
     <div id="cf-form">
       <div class="cf-grid">
         <div><label class="flbl">First Name</label><input type="text" class="finput" id="cf1" placeholder="First"></div>
         <div><label class="flbl">Last Name</label><input type="text" class="finput" id="cf2" placeholder="Last"></div>
         <div class="cf-full"><label class="flbl">Email</label><input type="email" class="finput" id="cfe" placeholder="your@email.com"></div>
         <div class="cf-full"><label class="flbl">Phone</label><input type="tel" class="finput" id="cfp" placeholder="(910) 000-0000"></div>
-        <div class="cf-full"><label class="flbl">Message (optional)</label><textarea class="ta" id="cfm" placeholder="Tell us about your goals..."></textarea></div>
+        <div class="cf-full"><label class="flbl">Message</label><textarea class="ta" id="cfm" placeholder="${msgPlaceholder}"></textarea></div>
       </div>
       <button class="btn-gold" onclick="submitCF('${badge}')">Request a Consultation</button>
     </div>
@@ -205,7 +187,7 @@ function showResult(){
       <div class="success">
         <div class="success-icon">✦</div>
         <div class="success-title">Thank You</div>
-        <div class="success-text">Your inquiry has been received. A DBRE advisor will be in touch within one business day.</div>
+        <div class="success-text">${advisorName?advisorFirst+' will':'A DBRE advisor will'} be in touch within one business day.</div>
         <div style="font-size:10px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase">Where Luxury Service Meets Genuine Connection</div>
       </div>
     </div>
@@ -224,19 +206,18 @@ function submitCF(badge){
   const first=document.getElementById('cf1').value.trim();
   const email=document.getElementById('cfe').value.trim();
   if(!first||!email){alert('Please enter your name and email to continue.');return;}
-  // EmailJS — wire up when ready
-  // emailjs.send('service_sbn2ktd','template_xie36tp',{
-  //   name: first+' '+document.getElementById('cf2').value,
-  //   first_name: first,
-  //   last_name: document.getElementById('cf2').value,
-  //   email: email,
-  //   phone: document.getElementById('cfp').value,
-  //   client_type: 'Buyer — via Buyer Readiness Quiz (' + badge + ')',
-  //   existing_agent: 'No',
-  //   preferred_advisor: 'No preference',
-  //   communities: 'Not specified',
-  //   message: document.getElementById('cfm').value
-  // });
+  emailjs.send('service_sbn2ktd','template_xie36tp',{
+    name: first+' '+document.getElementById('cf2').value,
+    first_name: first,
+    last_name: document.getElementById('cf2').value,
+    email: email,
+    phone: document.getElementById('cfp').value,
+    client_type: 'Buyer — via Buyer Readiness Quiz ('+badge+')',
+    existing_agent: 'No',
+    preferred_advisor: advisorName||'No preference',
+    communities: 'Not specified',
+    message: document.getElementById('cfm').value
+  }).then(()=>console.log('Sent')).catch(e=>console.error(e));
   document.getElementById('cf-form').style.display='none';
   document.getElementById('cf-success').style.display='block';
 }
@@ -245,9 +226,8 @@ function restart(){ans=[];cur=0;render();}
 render();
 </script>
 
-<!-- EmailJS — uncomment when ready:
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>emailjs.init("wLtcsXgSBTysZzGm7");</script>
--->
+
 </body>
 </html>

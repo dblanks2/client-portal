@@ -134,23 +134,23 @@ function submitCF(){
   const first=document.getElementById('cf1').value.trim();
   const email=document.getElementById('cfe').value.trim();
   if(!first||!email){alert('Please enter your name and email to continue.');return;}
-  // emailjs.send('service_sbn2ktd','template_xie36tp',{
-  //   name: first+' '+document.getElementById('cf2').value,
-  //   first_name: first, last_name: document.getElementById('cf2').value,
-  //   email: email, phone: document.getElementById('cfp').value,
-  //   client_type: document.getElementById('cft').value,
-  //   existing_agent: document.getElementById('cfa').value,
-  //   preferred_advisor: 'Derrick Blanks II',
-  //   communities: 'Not specified — via direct advisor link',
-  //   message: document.getElementById('cfm').value
-  // });
+  emailjs.send('service_sbn2ktd','template_xie36tp',{
+    name: first+' '+document.getElementById('cf2').value,
+    first_name: first,
+    last_name: document.getElementById('cf2').value,
+    email: email,
+    phone: document.getElementById('cfp').value,
+    client_type: document.getElementById('cft').value,
+    existing_agent: document.getElementById('cfa').value,
+    preferred_advisor: 'Derrick Blanks II',
+    communities: 'Not specified — via direct advisor link',
+    message: document.getElementById('cfm').value
+  }).then(()=>console.log('Sent')).catch(e=>console.error(e));
   document.getElementById('cf-form').style.display='none';
   document.getElementById('cf-success').style.display='block';
 }
 </script>
-<!-- EmailJS — uncomment when ready:
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>emailjs.init("wLtcsXgSBTysZzGm7");</script>
--->
 </body>
 </html>
